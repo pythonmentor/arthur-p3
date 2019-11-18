@@ -4,5 +4,5 @@ Help MacMyver to escape
 
 # Game Moves
 
-arrows : move
-space : attack
+- arrows : move
+- space : attack
