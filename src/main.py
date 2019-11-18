@@ -1,3 +1,5 @@
+#!venv/bin/python3.5
+
 import os
 from gyver import Gyver
 from labyrinth import Labyrinth
@@ -7,7 +9,7 @@ ROOT_DIR = os.path.abspath('..')
 RES_DIR = ROOT_DIR + '/res'
 
 gyver = Gyver(coords=[1, 2])
-labyrinth = Labyrinth(path=LABY_PATH)
+labyrinth = Labyrinth()
 
 def __main__():
     gameLoop = GameLoop(gyver, labyrinth)

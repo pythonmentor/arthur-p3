@@ -7,11 +7,9 @@ class Labyrinth(object):
 
     def __init__(self, **kwargs):
         super(Labyrinth, self).__init__()
-        path = kwargs.pop('path', None)
-        if(path != None):
-            self.buildLabyrinth(path)
+        self.buildLabyrinth()
 
-    def buildLabyrinth(self, path):
+    def buildLabyrinth(self):
         laby = [
             ['w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w'],
             ['w', 'p', '_', '_', '_', '_', '_', '_', '_', 'w'],
