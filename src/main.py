@@ -4,7 +4,6 @@ from labyrinth import Labyrinth
 from gameloop import GameLoop
 
 ROOT_DIR = os.path.abspath('..')
-LABY_PATH = ROOT_DIR + '/laby.txt'
 RES_DIR = ROOT_DIR + '/res'
 
 gyver = Gyver(coords=[1, 2])
