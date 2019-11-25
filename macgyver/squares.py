@@ -1,5 +1,7 @@
 class Square():
-    """docstring for Square."""
+    """
+        A Square is an Area where Mac Gyver can move or not.
+    """
 
     coords = []
     type = 'Floor'
@@ -8,9 +10,15 @@ class Square():
         self.coords = coords
 
     def can_move(self):
+        """
+            True if Mac Gyver can move on it. False is he can't.
+        """
         return True
 
     def after_move(self, gyver):
+        """
+            Execute method(s) after a move
+        """
         return 0
 
 class Wall(Square):

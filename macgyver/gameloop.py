@@ -3,10 +3,14 @@ import sys
 import pygame
 
 class GameLoop():
-    """docstring for GameLoop."""
+    """
+        GameLoop is the loop of pygame. If self.loop is equal to 1, the game
+        is running.
+    """
 
     gyver = None
     labyrinth = None
+    loop = 0
 
     def __init__(self, gyver, labyrinth, **kwargs):
         self.gyver = gyver
@@ -41,9 +45,11 @@ class GameLoop():
 
 
     def start_loop(self):
+        self.loop = 1
+
         gyverImg = pygame.image.load("res/MacGyver.png")
         gyverRect = gyverImg.get_rect().clip(pygame.Rect((0, 0), (50, 50)))
 
-        while 1:
+        while self.loop == 1:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT: sys.exit()
