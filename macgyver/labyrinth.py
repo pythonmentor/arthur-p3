@@ -1,18 +1,17 @@
-from squares import *
+from squares import Square, Wall, Guard
 
-class Labyrinth(object):
+class Labyrinth():
     """docstring for Labyrinth."""
 
     maps = []
 
     def __init__(self, **kwargs):
-        super(Labyrinth, self).__init__()
-        self.buildLabyrinth()
+        self.build_labyrinth()
 
-    def buildLabyrinth(self):
+    def build_labyrinth(self):
         laby = [
             ['w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w'],
-            ['w', 'p', '_', 'w', '_', '_', '_', 'w', 'g', 'w'],
+            ['w', '_', '_', 'w', '_', '_', '_', 'w', 'g', 'w'],
             ['w', 'w', '_', 'w', '_', 'w', '_', 'w', '_', 'w'],
             ['w', '_', '_', '_', '_', 'w', 'w', 'w', '_', 'w'],
             ['w', '_', 'w', 'w', 'w', '_', '_', '_', '_', 'w'],
@@ -23,20 +22,16 @@ class Labyrinth(object):
             ['w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w'],
         ]
 
-        for iRow in range(len(laby)):
-            row = laby[iRow]
-            mapRow = []
-            for iColumn in range(len(row)):
-                square = row[iColumn]
-                coords = [iRow, iColumn]
+        for i_row, row in enumerate(laby):
+            map_row = []
+            for i_column, square in enumerate(row):
+                coords = [i_row, i_column]
 
                 if(square == 'w'):
-                    mapRow.append(Wall(coords))
+                    map_row.append(Wall(coords))
                 elif(square == 'g'):
-                    mapRow.append(Guard(coords))
+                    map_row.append(Guard(coords))
                 else:
-                    mapRow.append(Square(coords))
+                    map_row.append(Square(coords))
 
-                print('Square Loaded : ' + str(square))
-
-            self.maps.append(mapRow)
+            self.maps.append(map_row)

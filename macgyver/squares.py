@@ -1,4 +1,4 @@
-class Square(object):
+class Square():
     """docstring for Square."""
 
     coords = []
@@ -7,25 +7,28 @@ class Square(object):
     def __init__(self, coords):
         self.coords = coords
 
-    def canMove(self):
-        return False
+    def can_move(self):
+        return True
 
-    def afterMove(self, gyver):
+    def after_move(self, gyver):
         return 0
 
 class Wall(Square):
     """docstring for Wall."""
 
     def __init__(self, coords):
-        super(Wall, self).__init__(coords)
+        super().__init__(coords)
         self.type = "Wall"
+
+    def can_move(self):
+        return False
 
 class Guard(Square):
     """docstring for Guard."""
 
     def __init__(self, coords):
-        super(Guard, self).__init__(coords)
+        super().__init__(coords)
         self.type = "Guard"
 
-    def afterMove(self, gyver):
+    def after_move(self, gyver):
         gyver.win()
