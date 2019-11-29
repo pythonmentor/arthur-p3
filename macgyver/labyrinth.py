@@ -33,17 +33,16 @@ class Labyrinth:
             for i_column, square in enumerate(row):
                 x = i_column
                 y = i_row
-                key = (x, y)
-                coords = {'x': x, 'y': y}
+                coords = (x, y)
 
                 if(square == 'w'):
-                    Labyrinth.maps[key] = Wall(coords)
+                    Labyrinth.maps[coords] = Wall(coords)
                 elif(square == 'g'):
-                    Labyrinth.maps[key] = Guard(coords)
+                    Labyrinth.maps[coords] = Guard(coords)
                 else:
-                    Labyrinth.maps[key] = Square(coords)
+                    Labyrinth.maps[coords] = Square(coords)
                     if(gyver_coords != coords):
-                        Square.add_square(key)
+                        Square.add_square(coords)
 
         # place itams
         items = [
@@ -53,17 +52,15 @@ class Labyrinth:
             {'name': 'Item 4'},
         ]
         for item in items:
-            key = Square.random_pop_square()
-            coords = {'x': key[0], 'y': key[1]}
+            coords = Square.random_pop_square()
             name = item['name']
-            Labyrinth.maps[key] = Item(coords, name)
+            Labyrinth.maps[coords] = Item(coords, name)
 
         Square.squares = None
 
 
     def get_square(coords):
-        key = (coords['x'], coords['y'])
-        return Labyrinth.maps[key]
+        return Labyrinth.maps[coords]
 
 
     def can_move(coords):

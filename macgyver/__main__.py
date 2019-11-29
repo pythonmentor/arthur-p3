@@ -8,7 +8,7 @@ from .drivers import TerminalDriver
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 def main():
-    gyver_coords = {'x': 8, 'y': 4}
+    gyver_coords = (8, 4)
     Gyver.init_gyver(gyver_coords)
     Labyrinth.build_labyrinth(gyver_coords)
 

@@ -14,7 +14,7 @@ class Gyver:
 
     def init_gyver(coords):
         """
-            coords = {'x': <int>, 'y': <int>}
+            coords = (x, y)
         """
         Gyver.coords = coords
 
@@ -28,10 +28,7 @@ class Gyver:
         x = kwargs.pop('x', 0)
         y = kwargs.pop('y', 0)
 
-        coords = {
-            'x': Gyver.coords['x']+x,
-            'y': Gyver.coords['y']+y,
-        }
+        coords = (Gyver.coords[0]+x, Gyver.coords[1]+y)
 
         if(Labyrinth.can_move(coords)):
             Gyver.coords = coords

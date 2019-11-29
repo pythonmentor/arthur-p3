@@ -9,7 +9,7 @@ class Square:
 
     def __init__(self, coords):
         """
-            coords = {'x': <int>, 'y': <int>}
+            coords = (x, y)
         """
         self.coords = coords
         self.type = 'Floor'
