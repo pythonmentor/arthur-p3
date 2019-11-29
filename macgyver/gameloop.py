@@ -5,58 +5,27 @@ import pygame
 from .gyver import Gyver
 from .labyrinth import Labyrinth
 
+from .driver import Driver
+
 class GameLoop:
     """
         GameLoop is the loop of the laby game. If self.loop is equal to 1, the
         game is running.
     """
 
-    TERMINAL = 'TERMINAL'
-    PYGAME = 'PYGAME'
-
     WIN = "WIN"
 
 
     def __init__(self, **kwargs):
         self.loop = 0
-        self.mode = kwargs.pop('mode', self.TERMINAL)
-
-    def print_game(self):
-        print('\n')
-
-        maps = Labyrinth.maps
-
-        print('##########')
-
-        items_string = 'Items : '
-        if(len(Gyver.items) == 0):
-            items_string += '---'
-        for name, taken in Gyver.items.items():
-            if(taken):
-                items_string += ' [' + name + '] '
-        print(items_string)
-        print('##########\n')
-
-        for i_row in range(Labyrinth.rows):
-            laby_string = ''
-            for i_column in range(Labyrinth.columns):
-                square = maps[(i_column, i_row)]
-                if(Gyver.coords == square.coords):
-                    laby_string += '\t' + 'Gyver'
-                else:
-                    laby_string += '\t' +  square.get_type()
-
-            print(laby_string)
+        self.driver = kwargs.pop('driver', Driver)
 
     def draw_labyrinth(self):
-        if(self.mode == self.TERMINAL):
-            self.print_game()
+        self.driver.draw_labyrinth()
 
 
     def wait_for_move(self):
-        if(self.mode == self.TERMINAL):
-            move = input('L, R, U, D (or QUIT) :\n')
-
+        move = self.driver.wait_for_move()
         return move
 
     def perform_move(self, move):
@@ -81,8 +50,7 @@ class GameLoop:
 
 
     def win_scenario(self):
-        if(self.mode == self.TERMINAL):
-            print("Well done !")
+        self.driver.win_scenario()
 
 
     def start_loop(self):
