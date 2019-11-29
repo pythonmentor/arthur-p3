@@ -24,6 +24,7 @@ class Labyrinth:
         Labyrinth.rows = len(laby)
         Labyrinth.columns = len(laby[0])
 
+        # initialise basic labyrinth
         for i_row, row in enumerate(laby):
             for i_column, square in enumerate(row):
                 x = i_column
@@ -35,16 +36,24 @@ class Labyrinth:
                     Labyrinth.maps[key] = Wall(coords)
                 elif(square == 'g'):
                     Labyrinth.maps[key] = Guard(coords)
-                elif(square == '1'):
-                    Labyrinth.maps[key] = Item(coords, 'Item 1')
-                elif(square == '2'):
-                    Labyrinth.maps[key] = Item(coords, 'Item 2')
-                elif(square == '3'):
-                    Labyrinth.maps[key] = Item(coords, 'Item 3')
-                elif(square == '4'):
-                    Labyrinth.maps[key] = Item(coords, 'Item 4')
                 else:
                     Labyrinth.maps[key] = Square(coords)
+                    Square.add_square(key)
+
+        # place itams
+        items = [
+            {'name': 'Item 1'},
+            {'name': 'Item 2'},
+            {'name': 'Item 3'},
+            {'name': 'Item 4'},
+        ]
+        for item in items:
+            key = Square.random_pop_square()
+            coords = {'x': key[0], 'y': key[1]}
+            name = item['name']
+            Labyrinth.maps[key] = Item(coords, name)
+
+        Square.squares = None
 
 
     def get_square(coords):

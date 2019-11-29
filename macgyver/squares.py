@@ -1,7 +1,11 @@
+from random import random
+
 class Square:
     """
         A Square is an Area where Mac Gyver can move or not.
     """
+
+    squares = []
 
     def __init__(self, coords):
         """
@@ -24,6 +28,16 @@ class Square:
 
     def get_type(self):
         return self.type
+
+
+    def add_square(key):
+        Square.squares.append(key)
+
+
+    def random_pop_square():
+        rand_int = int(random()*(len(Square.squares)-1))
+
+        return Square.squares.pop(rand_int)
 
 class Wall(Square):
     """docstring for Wall."""
@@ -64,4 +78,8 @@ class Guard(Square):
     def after_move(self, **kwargs):
         gyver = kwargs.pop('gyver', None)
         if(gyver != None):
-            gyver.set_win()
+
+            if(len(gyver.items) == 4):
+                gyver.set_win()
+            else:
+                gyver.set_lose()

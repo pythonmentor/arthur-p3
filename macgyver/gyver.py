@@ -7,6 +7,8 @@ class Gyver:
     """
 
     win = False
+    lose = False
+
     coords = None
     items = {}
 
@@ -39,6 +41,9 @@ class Gyver:
 
     def set_win(self):
         Gyver.win = True
+
+    def set_lose(self):
+        Gyver.lose = True
 
 
     def add_item(self, name):

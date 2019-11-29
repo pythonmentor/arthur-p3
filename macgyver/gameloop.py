@@ -47,10 +47,16 @@ class GameLoop:
             self.loop = 0
         if(Gyver.win):
             self.loop = 2
+        if(Gyver.lose):
+            self.loop = 3
 
 
     def win_scenario(self):
         self.driver.win_scenario()
+
+
+    def lose_scenario(self):
+        self.driver.lose_scenario()
 
 
     def start_loop(self):
@@ -63,3 +69,6 @@ class GameLoop:
 
         if(self.loop == 2):
             self.win_scenario()
+
+        if(self.loop == 3):
+            self.lose_scenario()

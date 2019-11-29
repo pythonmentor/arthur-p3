@@ -12,6 +12,9 @@ class Driver:
     def win_scenario(self):
         print('This is an interface')
 
+    def lose_scenario(self):
+        print('This is an interface')
+
 
 class TerminalDriver(Driver):
 
@@ -49,3 +52,6 @@ class TerminalDriver(Driver):
 
     def win_scenario(self):
         print('Well Done !')
+
+    def lose_scenario(self):
+        print('Game Over...')
