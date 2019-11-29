@@ -1,7 +1,11 @@
 from .squares import Square, Wall, Guard, Item
 
 class Labyrinth:
-    """Static Labyrinth."""
+    """
+        Full Static Object. Need to call build_labyrinth before use. The class
+        can be used to know quickely if MacGyver can move in a square or to
+        get a square by coords.
+    """
 
     maps = {}
     rows = 0

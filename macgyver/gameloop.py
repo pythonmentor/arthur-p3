@@ -9,26 +9,31 @@ from .drivers import Driver
 
 class GameLoop:
     """
-        GameLoop is the loop of the laby game. If self.loop is equal to 1, the
-        game is running.
+        GameLoop is the loop of the laby game.
+        The self.loop value says :
+        - 0 : stop
+        - 1 : loop running
+        - 2 : win
+        - 3 : lose
+        - 4 : pause
     """
-
-    WIN = "WIN"
 
 
     def __init__(self, **kwargs):
         self.loop = 0
         self.driver = kwargs.pop('driver', Driver)
 
-    def draw_labyrinth(self):
-        self.driver.draw_labyrinth()
-
-
-    def wait_for_move(self):
-        move = self.driver.wait_for_move()
-        return move
-
     def perform_move(self, move):
+        """
+            Take a String and move MacGyver.
+            The move value :
+            - R : Right
+            - L : Left
+            - U : Up
+            - D : Down
+            - QUIT : Quit
+        """
+
         square = Labyrinth.get_square(Gyver.coords)
 
         if(move == 'R'):
@@ -51,24 +56,21 @@ class GameLoop:
             self.loop = 3
 
 
-    def win_scenario(self):
-        self.driver.win_scenario()
-
-
-    def lose_scenario(self):
-        self.driver.lose_scenario()
-
-
     def start_loop(self):
+        """
+            The loop call only the driver and perform the move.
+        """
+
         self.loop = 1
 
         while self.loop == 1:
-            self.draw_labyrinth()
-            move = self.wait_for_move()
+            self.driver.draw_labyrinth()
+            move = self.driver.wait_for_move()
+
             self.perform_move(move)
 
         if(self.loop == 2):
-            self.win_scenario()
+            self.driver.win_scenario()
 
         if(self.loop == 3):
-            self.lose_scenario()
+            self.driver.lose_scenario()

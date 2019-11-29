@@ -40,7 +40,9 @@ class Square:
         return Square.squares.pop(rand_int)
 
 class Wall(Square):
-    """docstring for Wall."""
+    """
+        The Wall block MacGyver's moves.
+    """
 
     def __init__(self, coords):
         super().__init__(coords)
@@ -51,7 +53,10 @@ class Wall(Square):
 
 
 class Item(Square):
-    """docstring for Item."""
+    """
+        Item is a win condition. When MacGyver is on, it become a simple
+        Square.
+    """
 
     def __init__(self, coords, name):
         super().__init__(coords)
@@ -69,7 +74,10 @@ class Item(Square):
 
 
 class Guard(Square):
-    """docstring for Guard."""
+    """
+        Guard kill MacGyver if all items are not on his hand, else the
+        Guard die.
+    """
 
     def __init__(self, coords):
         super().__init__(coords)
