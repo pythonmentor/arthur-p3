@@ -1,13 +1,14 @@
-class Square():
+class Square:
     """
         A Square is an Area where Mac Gyver can move or not.
     """
 
-    coords = []
-    type = 'Floor'
-
     def __init__(self, coords):
+        """
+            coords = {'x': <int>, 'y': <int>}
+        """
         self.coords = coords
+        self.type = 'Floor'
 
     def can_move(self):
         """
@@ -15,11 +16,14 @@ class Square():
         """
         return True
 
-    def after_move(self, gyver):
+    def after_move(self, **kwargs):
         """
             Execute method(s) after a move
         """
         return 0
+
+    def get_type(self):
+        return self.type
 
 class Wall(Square):
     """docstring for Wall."""
@@ -31,6 +35,25 @@ class Wall(Square):
     def can_move(self):
         return False
 
+
+class Item(Square):
+    """docstring for Item."""
+
+    def __init__(self, coords, name):
+        super().__init__(coords)
+        self.type = name
+        self.taken = False
+
+    def after_move(self, **kwargs):
+        gyver = kwargs.pop('gyver', None)
+        if(gyver != None):
+            gyver.add_item(self.type)
+            self.taken = True
+
+    def get_type(self):
+        return 'Floor' if self.taken else self.type
+
+
 class Guard(Square):
     """docstring for Guard."""
 
@@ -38,5 +61,7 @@ class Guard(Square):
         super().__init__(coords)
         self.type = "Guard"
 
-    def after_move(self, gyver):
-        gyver.win()
+    def after_move(self, **kwargs):
+        gyver = kwargs.pop('gyver', None)
+        if(gyver != None):
+            gyver.set_win()

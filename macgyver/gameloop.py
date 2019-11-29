@@ -2,54 +2,96 @@ import os
 import sys
 import pygame
 
-class GameLoop():
+from .gyver import Gyver
+from .labyrinth import Labyrinth
+
+class GameLoop:
     """
-        GameLoop is the loop of pygame. If self.loop is equal to 1, the game
-        is running.
+        GameLoop is the loop of the laby game. If self.loop is equal to 1, the
+        game is running.
     """
 
-    gyver = None
-    labyrinth = None
-    loop = 0
+    TERMINAL = 'TERMINAL'
+    PYGAME = 'PYGAME'
 
-    def __init__(self, gyver, labyrinth, **kwargs):
-        self.gyver = gyver
-        self.labyrinth = labyrinth
+    WIN = "WIN"
 
-        self.print_game()
 
-        self.init_pygame()
-        self.draw_labyrinth()
+    def __init__(self, **kwargs):
+        self.loop = 0
+        self.mode = kwargs.pop('mode', self.TERMINAL)
 
     def print_game(self):
-        maps = self.labyrinth.maps
+        print('\n')
 
-        for row in maps:
-            s = ''
-            for square in row:
-                if(self.gyver.coords == square.coords):
-                    s += '\t' + 'Gyver'
+        maps = Labyrinth.maps
+
+        print('##########')
+
+        items_string = 'Items : '
+        if(len(Gyver.items) == 0):
+            items_string += '---'
+        for name, taken in Gyver.items.items():
+            if(taken):
+                items_string += ' [' + name + '] '
+        print(items_string)
+        print('##########\n')
+
+        for i_row in range(Labyrinth.rows):
+            laby_string = ''
+            for i_column in range(Labyrinth.columns):
+                square = maps[(i_column, i_row)]
+                if(Gyver.coords == square.coords):
+                    laby_string += '\t' + 'Gyver'
                 else:
-                    s += '\t' +  square.type
+                    laby_string += '\t' +  square.get_type()
 
-            print(s)
-
-    def init_pygame(self):
-        pygame.init()
-
-        size = width, height = 700, 500
-        screen = pygame.display.set_mode(size)
+            print(laby_string)
 
     def draw_labyrinth(self):
-        print('draw labyrinth')
+        if(self.mode == self.TERMINAL):
+            self.print_game()
+
+
+    def wait_for_move(self):
+        if(self.mode == self.TERMINAL):
+            move = input('L, R, U, D (or QUIT) :\n')
+
+        return move
+
+    def perform_move(self, move):
+        square = Labyrinth.get_square(Gyver.coords)
+
+        if(move == 'R'):
+            square = Gyver.move(x=1)
+        elif(move == 'L'):
+            square = Gyver.move(x=-1)
+        elif(move == 'U'):
+            square = Gyver.move(y=-1)
+        elif(move == 'D'):
+            square = Gyver.move(y=1)
+
+        square.after_move(gyver=Gyver())
+
+        # end conditions
+        if(move == 'QUIT'):
+            self.loop = 0
+        if(Gyver.win):
+            self.loop = 2
+
+
+    def win_scenario(self):
+        if(self.mode == self.TERMINAL):
+            print("Well done !")
 
 
     def start_loop(self):
         self.loop = 1
 
-        gyverImg = pygame.image.load("res/MacGyver.png")
-        gyverRect = gyverImg.get_rect().clip(pygame.Rect((0, 0), (50, 50)))
-
         while self.loop == 1:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT: sys.exit()
+            self.draw_labyrinth()
+            move = self.wait_for_move()
+            self.perform_move(move)
+
+        if(self.loop == 2):
+            self.win_scenario()

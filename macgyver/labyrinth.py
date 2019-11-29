@@ -1,14 +1,13 @@
-from squares import Square, Wall, Guard
+from .squares import Square, Wall, Guard, Item
 
-class Labyrinth():
-    """docstring for Labyrinth."""
+class Labyrinth:
+    """Static Labyrinth."""
 
-    maps = []
+    maps = {}
+    rows = 0
+    columns = 0
 
-    def __init__(self, **kwargs):
-        self.build_labyrinth()
-
-    def build_labyrinth(self):
+    def build_labyrinth():
         laby = [
             ['w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w'],
             ['w', '_', '_', 'w', '_', '_', '_', 'w', 'g', 'w'],
@@ -22,16 +21,42 @@ class Labyrinth():
             ['w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w'],
         ]
 
+        Labyrinth.rows = len(laby)
+        Labyrinth.columns = len(laby[0])
+
         for i_row, row in enumerate(laby):
-            map_row = []
             for i_column, square in enumerate(row):
-                coords = [i_row, i_column]
+                x = i_column
+                y = i_row
+                key = (x, y)
+                coords = {'x': x, 'y': y}
 
                 if(square == 'w'):
-                    map_row.append(Wall(coords))
+                    Labyrinth.maps[key] = Wall(coords)
                 elif(square == 'g'):
-                    map_row.append(Guard(coords))
+                    Labyrinth.maps[key] = Guard(coords)
+                elif(square == '1'):
+                    Labyrinth.maps[key] = Item(coords, 'Item 1')
+                elif(square == '2'):
+                    Labyrinth.maps[key] = Item(coords, 'Item 2')
+                elif(square == '3'):
+                    Labyrinth.maps[key] = Item(coords, 'Item 3')
+                elif(square == '4'):
+                    Labyrinth.maps[key] = Item(coords, 'Item 4')
                 else:
-                    map_row.append(Square(coords))
+                    Labyrinth.maps[key] = Square(coords)
 
-            self.maps.append(map_row)
+
+    def get_square(coords):
+        key = (coords['x'], coords['y'])
+        return Labyrinth.maps[key]
+
+
+    def can_move(coords):
+        square = Labyrinth.get_square(coords)
+        if(square != None):
+            can_move = square.can_move()
+        else:
+            return False
+
+        return can_move
