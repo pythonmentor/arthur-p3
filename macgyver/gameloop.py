@@ -5,7 +5,7 @@ import pygame
 from .gyver import Gyver
 from .labyrinth import Labyrinth
 
-from .driver import Driver
+from .drivers import Driver
 
 class GameLoop:
     """

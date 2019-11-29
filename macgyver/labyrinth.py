@@ -7,7 +7,7 @@ class Labyrinth:
     rows = 0
     columns = 0
 
-    def build_labyrinth():
+    def build_labyrinth(gyver_coords):
         laby = [
             ['w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w'],
             ['w', '_', '_', 'w', '_', '_', '_', 'w', 'g', 'w'],
@@ -38,7 +38,8 @@ class Labyrinth:
                     Labyrinth.maps[key] = Guard(coords)
                 else:
                     Labyrinth.maps[key] = Square(coords)
-                    Square.add_square(key)
+                    if(gyver_coords != coords):
+                        Square.add_square(key)
 
         # place itams
         items = [
