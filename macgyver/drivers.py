@@ -98,15 +98,27 @@ class PygameDriver(Driver):
         """
         super().__init__()
         pygame.init()
+        pygame.display.set_caption('Mac Gyver Evasion')
         pygame.time.delay(int(1000/fps))
 
-        self.screen = pygame.display.set_mode((500, 500))
-        pygame.display.set_caption('Mac Gyver Evasion')
-        self.background = pygame.Surface(self.screen.get_size())
-        self.background = self.background.convert()
-        self.background.fill((250, 250, 250))
+        self.PIXEL = 50
 
-        #self._load_images()
+        self._load_pygame()
+        self._load_images()
+
+    def _load_pygame(self):
+        """
+            private method : load pygame environment
+        """
+
+        self.screen = pygame.display.set_mode(
+            (self.PIXEL*Labyrinth.columns, self.PIXEL*Labyrinth.rows)
+        )
+
+        background = pygame.Surface(self.screen.get_size())
+        background = background.convert()
+        background.fill((250, 250, 250))
+        self.background = background
 
     def _load_images(self):
         """
@@ -115,25 +127,62 @@ class PygameDriver(Driver):
         """
         ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-        self.wall_img = pygame.image.load(os.path.join(ROOT_DIR,'res/laby/wall.png'))
-        self.guard_img = pygame.image.load(os.path.join(ROOT_DIR,'res/laby/guard.png'))
-        self.gyver_img = pygame.image.load(os.path.join(ROOT_DIR,'res/laby/gyver.png'))
+        self.floor = self._load_image(os.path.join(ROOT_DIR, 'res/laby/floor.png'))
+        self.wall = self._load_image(os.path.join(ROOT_DIR, 'res/laby/wall.png'))
+        self.guard = self._load_image(os.path.join(ROOT_DIR, 'res/laby/guard.png'))
+        self.gyver = self._load_image(os.path.join(ROOT_DIR, 'res/laby/gyver.png'))
+        self.needle = self._load_image(os.path.join(ROOT_DIR, 'res/laby/needle.png'))
+        self.plastic_tube = self._load_image(os.path.join(ROOT_DIR, 'res/laby/plastic_tube.png'))
+        self.syringe = self._load_image(os.path.join(ROOT_DIR, 'res/laby/syringe.png'))
+        self.ether = self._load_image(os.path.join(ROOT_DIR, 'res/laby/ether.png'))
+
+    def _load_image(self, path):
+        img = pygame.image.load(path)
+        img = pygame.transform.scale(img, (50, 50))
+
+        return img
 
     def _draw_laby(self):
         """
             private method : draw the laby with items and the guard
         """
-        return 0
+
+        self.screen.blit(self.background, (0, 0))
+
+        for i_row in range(Labyrinth.rows):
+            for i_column in range(Labyrinth.columns):
+                coords = (i_column, i_row)
+                pixel_coords = (self.PIXEL*i_column, self.PIXEL*i_row)
+
+                square = Labyrinth.get_square(coords)
+                if(square.get_type() == 'Floor'):
+                    img = self.floor
+                elif(square.get_type() == 'Wall'):
+                    img = self.wall
+                elif(square.get_type() == 'Item 1'):
+                    img = self.needle
+                elif(square.get_type() == 'Item 2'):
+                    img = self.plastic_tube
+                elif(square.get_type() == 'Item 3'):
+                    img = self.syringe
+                elif(square.get_type() == 'Item 4'):
+                    img = self.ether
+                elif(square.get_type() == 'Guard'):
+                    img = self.guard
+
+                self.screen.blit(img, pixel_coords)
 
     def _draw_gyver(self):
         """
             private method : draw gyver and add the numbers of items he hold
         """
-        return 0
+        pixel_coords = (self.PIXEL*Gyver.coords[0], self.PIXEL*Gyver.coords[1])
+        self.screen.blit(self.gyver, pixel_coords)
 
     def draw_labyrinth(self):
         self._draw_laby()
         self._draw_gyver()
+        pygame.display.flip()
 
     def wait_for_move(self):
         for event in pygame.event.get():

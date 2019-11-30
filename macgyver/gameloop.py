@@ -34,18 +34,20 @@ class GameLoop:
             - QUIT : Quit
         """
 
-        square = Labyrinth.get_square(Gyver.coords)
+        if(move in ['R', 'L', 'U', 'D']):
 
-        if(move == 'R'):
-            square = Gyver.move(x=1)
-        elif(move == 'L'):
-            square = Gyver.move(x=-1)
-        elif(move == 'U'):
-            square = Gyver.move(y=-1)
-        elif(move == 'D'):
-            square = Gyver.move(y=1)
+            square = Labyrinth.get_square(Gyver.coords)
 
-        square.after_move(gyver=Gyver())
+            if(move == 'R'):
+                square = Gyver.move(x=1)
+            elif(move == 'L'):
+                square = Gyver.move(x=-1)
+            elif(move == 'U'):
+                square = Gyver.move(y=-1)
+            elif(move == 'D'):
+                square = Gyver.move(y=1)
+
+            square.after_move(gyver=Gyver())
 
         # end conditions
         if(move == 'QUIT'):
