@@ -112,13 +112,17 @@ class PygameDriver(Driver):
         """
 
         self.screen = pygame.display.set_mode(
-            (self.PIXEL*Labyrinth.columns, self.PIXEL*Labyrinth.rows)
+            (self.PIXEL*Labyrinth.columns+200, self.PIXEL*Labyrinth.rows)
         )
 
-        background = pygame.Surface(self.screen.get_size())
-        background = background.convert()
-        background.fill((250, 250, 250))
-        self.background = background
+        self.background = pygame.Surface(self.screen.get_size())
+        self.background = self.background.convert()
+        self.background.fill((64, 0, 0))
+
+        self.font_21 = pygame.font.SysFont('roboto', 21)
+        self.font_21.set_bold(True)
+
+        self.font_16 = pygame.font.SysFont('roboto', 16)
 
     def _load_images(self):
         """
@@ -183,15 +187,41 @@ class PygameDriver(Driver):
         self.screen.blit(self.gyver, pixel_coords)
 
         # draw number of items
-        font = pygame.font.SysFont('roboto', 20)
-        font.set_bold(True)
-        label = font.render(str(len(Gyver.items)), 1, (240, 0, 0))
+        label = self.font_21.render(str(len(Gyver.items)), 1, (240, 0, 0))
         self.screen.blit(label, pixel_coords)
+
+
+    def _draw_legend(self):
+        legend = pygame.Surface((200, self.PIXEL*Labyrinth.rows))
+        legend.fill((64, 0, 0))
+
+        color = (240, 240, 240)
+
+        num_items = str(len(Gyver.items))
+
+        blits = [
+            (
+                self.font_21.render('Gyver Evasion', 1, color),
+                (24, 16)
+            ),
+            (
+                self.font_16.render(
+                    'Number of items : ' + num_items + '/4',
+                    1, color
+                ),
+                (26, 64)
+            ),
+        ]
+
+        legend.blits(blit_sequence=blits)
+
+        self.screen.blit(legend, (self.PIXEL*Labyrinth.columns, 0))
 
 
     def draw_labyrinth(self):
         self._draw_laby()
         self._draw_gyver()
+        self._draw_legend()
         pygame.display.flip()
 
     def wait_for_move(self):
@@ -215,7 +245,37 @@ class PygameDriver(Driver):
 
 
     def win_scenario(self):
+
+        win_screen = pygame.Surface(self.screen.get_size())
+        win_screen.fill((255, 0, 0))
+
+        win_screen.blit(self.font_21.render('Congratulation !', 1, (240, 240, 240)), (290, 235))
+
+        loop = True
+        while loop:
+            self.screen.blit(win_screen, (0, 0))
+            pygame.display.flip()
+
+            for event in pygame.event.get():
+                if(event.type == pygame.QUIT):
+                    loop = False
+
         print('Well Done !')
 
     def lose_scenario(self):
+
+        lose_screen = pygame.Surface(self.screen.get_size())
+        lose_screen.fill((255, 0, 0))
+
+        lose_screen.blit(self.font_21.render('Game Over...', 1, (240, 240, 240)), (290, 235))
+
+        loop = True
+        while loop:
+            self.screen.blit(lose_screen, (0, 0))
+            pygame.display.flip()
+
+            for event in pygame.event.get():
+                if(event.type == pygame.QUIT):
+                    loop = False
+
         print('Game Over...')
