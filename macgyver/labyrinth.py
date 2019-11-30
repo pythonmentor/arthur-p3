@@ -1,3 +1,5 @@
+import os
+
 from .squares import Square, Wall, Guard, Item
 
 class Labyrinth:
@@ -11,19 +13,20 @@ class Labyrinth:
     rows = 0
     columns = 0
 
-    def build_labyrinth(gyver_coords):
-        laby = [
-            ['w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w'],
-            ['w', '_', '_', 'w', '_', '_', '_', 'w', 'g', 'w'],
-            ['w', 'w', '_', 'w', '_', 'w', '_', 'w', '_', 'w'],
-            ['w', '_', '_', '_', '_', 'w', 'w', 'w', '_', 'w'],
-            ['w', '_', 'w', 'w', 'w', '_', '_', '_', '_', 'w'],
-            ['w', '_', 'w', '_', '_', 'w', '_', 'w', 'w', 'w'],
-            ['w', '_', 'w', '_', 'w', '_', '_', '_', '_', 'w'],
-            ['w', '_', 'w', '_', 'w', 'w', 'w', 'w', '_', 'w'],
-            ['w', '_', '_', '_', '_', '_', '_', '_', '_', 'w'],
-            ['w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w', 'w'],
-        ]
+    def build_labyrinth():
+        gyver_coords = (1, 1)
+
+        ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        laby_file = open(os.path.join(ROOT_DIR, 'laby.txt'))
+
+        laby = []
+
+        for line in laby_file:
+            row = []
+            for s in line:
+                if(s != '\n'):
+                    row.append(s)
+            laby.append(row)
 
         Labyrinth.rows = len(laby)
         Labyrinth.columns = len(laby[0])
@@ -39,10 +42,12 @@ class Labyrinth:
                     Labyrinth.maps[coords] = Wall(coords)
                 elif(square == 'g'):
                     Labyrinth.maps[coords] = Guard(coords)
+                elif(square == 'p'):
+                    Labyrinth.maps[coords] = Square(coords)
+                    gyver_coords = coords
                 else:
                     Labyrinth.maps[coords] = Square(coords)
-                    if(gyver_coords != coords):
-                        Square.add_square(coords)
+                    Square.add_square(coords)
 
         # place itams
         items = [
@@ -57,6 +62,8 @@ class Labyrinth:
             Labyrinth.maps[coords] = Item(coords, name)
 
         Square.squares = None
+
+        return gyver_coords
 
 
     def get_square(coords):

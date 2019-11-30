@@ -8,9 +8,8 @@ from .drivers import TerminalDriver, PygameDriver
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 def main():
-    gyver_coords = (8, 4)
+    gyver_coords = Labyrinth.build_labyrinth()
     Gyver.init_gyver(gyver_coords)
-    Labyrinth.build_labyrinth(gyver_coords)
 
     #gameLoop = GameLoop(driver=TerminalDriver())
     gameLoop = GameLoop(driver=PygameDriver(30))

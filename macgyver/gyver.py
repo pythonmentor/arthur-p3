@@ -12,11 +12,11 @@ class Gyver:
     coords = None
     items = {}
 
-    def init_gyver(coords):
+    def init_gyver(gyver_coords):
         """
             coords = (x, y)
         """
-        Gyver.coords = coords
+        Gyver.coords = gyver_coords
 
     def move(**kwargs):
         """
