@@ -139,6 +139,7 @@ class PygameDriver(Driver):
     def _load_image(self, path):
         img = pygame.image.load(path)
         img = pygame.transform.scale(img, (50, 50))
+        img.set_colorkey((255, 255, 255))
 
         return img
 
@@ -156,28 +157,37 @@ class PygameDriver(Driver):
 
                 square = Labyrinth.get_square(coords)
                 if(square.get_type() == 'Floor'):
-                    img = self.floor
+                    img = [(self.floor, pixel_coords)]
                 elif(square.get_type() == 'Wall'):
-                    img = self.wall
+                    img = [(self.wall, pixel_coords)]
                 elif(square.get_type() == 'Item 1'):
-                    img = self.needle
+                    img = [(self.floor, pixel_coords), (self.needle, pixel_coords)]
                 elif(square.get_type() == 'Item 2'):
-                    img = self.plastic_tube
+                    img = [(self.floor, pixel_coords), (self.plastic_tube, pixel_coords)]
                 elif(square.get_type() == 'Item 3'):
-                    img = self.syringe
+                    img = [(self.floor, pixel_coords), (self.syringe, pixel_coords)]
                 elif(square.get_type() == 'Item 4'):
-                    img = self.ether
+                    img = [(self.floor, pixel_coords), (self.ether, pixel_coords)]
                 elif(square.get_type() == 'Guard'):
-                    img = self.guard
+                    img = [(self.floor, pixel_coords), (self.guard, pixel_coords)]
 
-                self.screen.blit(img, pixel_coords)
+                self.screen.blits(blit_sequence=img)
 
     def _draw_gyver(self):
         """
             private method : draw gyver and add the numbers of items he hold
         """
         pixel_coords = (self.PIXEL*Gyver.coords[0], self.PIXEL*Gyver.coords[1])
+
+        # draw gyver
         self.screen.blit(self.gyver, pixel_coords)
+
+        # draw number of items
+        font = pygame.font.SysFont('roboto', 20)
+        font.set_bold(True)
+        label = font.render(str(len(Gyver.items)), 1, (240, 0, 0))
+        self.screen.blit(label, pixel_coords)
+
 
     def draw_labyrinth(self):
         self._draw_laby()
