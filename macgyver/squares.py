@@ -1,9 +1,8 @@
 from random import random
 
+
 class Square:
-    """
-        A Square is an Area where Mac Gyver can move or not.
-    """
+    """A Square is an Area where Mac Gyver can move or not."""
 
     squares = []
 
@@ -15,34 +14,30 @@ class Square:
         self.type = 'Floor'
 
     def can_move(self):
-        """
-            True if Mac Gyver can move on it. False is he can't.
+        """True if Mac Gyver can move on it.
+
+        False is he can't.
         """
         return True
 
     def after_move(self, **kwargs):
-        """
-            Execute method(s) after a move
-        """
+        """Execute method(s) after a move."""
         return 0
 
     def get_type(self):
         return self.type
 
-
     def add_square(key):
         Square.squares.append(key)
-
 
     def random_pop_square():
         rand_int = int(random()*(len(Square.squares)-1))
 
         return Square.squares.pop(rand_int)
 
+
 class Wall(Square):
-    """
-        The Wall block MacGyver's moves.
-    """
+    """The Wall block MacGyver's moves."""
 
     def __init__(self, coords):
         super().__init__(coords)
@@ -53,9 +48,9 @@ class Wall(Square):
 
 
 class Item(Square):
-    """
-        Item is a win condition. When MacGyver is on, it become a simple
-        Square.
+    """Item is a win condition.
+
+    When MacGyver is on, it become a simple Square.
     """
 
     def __init__(self, coords, name):
@@ -74,10 +69,8 @@ class Item(Square):
 
 
 class Guard(Square):
-    """
-        Guard kill MacGyver if all items are not on his hand, else the
-        Guard die.
-    """
+    """Guard kill MacGyver if all items are not on his hand, else the Guard
+    die."""
 
     def __init__(self, coords):
         super().__init__(coords)

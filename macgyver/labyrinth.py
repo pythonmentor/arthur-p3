@@ -2,11 +2,13 @@ import os
 
 from .squares import Square, Wall, Guard, Item
 
+
 class Labyrinth:
-    """
-        Full Static Object. Need to call build_labyrinth before use. The class
-        can be used to know quickely if MacGyver can move in a square or to
-        get a square by coords.
+    """Full Static Object.
+
+    Need to call build_labyrinth before use. The class can be used to
+    know quickely if MacGyver can move in a square or to get a square by
+    coords.
     """
 
     maps = {}
@@ -65,10 +67,8 @@ class Labyrinth:
 
         return gyver_coords
 
-
     def get_square(coords):
         return Labyrinth.maps[coords]
-
 
     def can_move(coords):
         square = Labyrinth.get_square(coords)

@@ -7,31 +7,29 @@ from .labyrinth import Labyrinth
 
 from .drivers import Driver
 
-class GameLoop:
-    """
-        GameLoop is the loop of the laby game.
-        The self.loop value says :
-        - 0 : stop
-        - 1 : loop running
-        - 2 : win
-        - 3 : lose
-        - 4 : pause
-    """
 
+class GameLoop:
+    """GameLoop is the loop of the laby game. The self.loop value says :
+
+    - 0 : stop
+    - 1 : loop running
+    - 2 : win
+    - 3 : lose
+    - 4 : pause
+    """
 
     def __init__(self, **kwargs):
         self.loop = 0
         self.driver = kwargs.pop('driver', Driver)
 
     def perform_move(self, move):
-        """
-            Take a String and move MacGyver.
-            The move value :
-            - R : Right
-            - L : Left
-            - U : Up
-            - D : Down
-            - QUIT : Quit
+        """Take a String and move MacGyver. The move value :
+
+        - R : Right
+        - L : Left
+        - U : Up
+        - D : Down
+        - QUIT : Quit
         """
 
         if(move in ['R', 'L', 'U', 'D']):
@@ -57,11 +55,8 @@ class GameLoop:
         if(Gyver.lose):
             self.loop = 3
 
-
     def start_loop(self):
-        """
-            The loop call only the driver and perform the move.
-        """
+        """The loop call only the driver and perform the move."""
 
         self.loop = 1
 

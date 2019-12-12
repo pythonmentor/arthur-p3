@@ -4,6 +4,7 @@ import pygame
 from .labyrinth import Labyrinth
 from .gyver import Gyver
 
+
 class Driver:
     """
         **Interface**
@@ -12,40 +13,35 @@ class Driver:
     """
 
     def draw_labyrinth(self):
-        """
-            Function to draw the labyrinth with MacGyver.
-        """
+        """Function to draw the labyrinth with MacGyver."""
 
         print('This is an interface')
 
     def wait_for_move(self):
-        """
-            Function to wait next move. Return String who know the move.
+        """Function to wait next move.
+
+        Return String who know the move.
         """
 
         print('This is an interface')
         return None
 
     def win_scenario(self):
-        """
-            What the program do when MacGyver win.
-        """
+        """What the program do when MacGyver win."""
 
         print('This is an interface')
 
     def lose_scenario(self):
-        """
-            What the program do when MacGyver lose.
-        """
+        """What the program do when MacGyver lose."""
 
         print('This is an interface')
 
 
 class TerminalDriver(Driver):
-    """
-        Terminal Driver. Print the labyrinth and ask for input (L, R, U, D).
-        Win and Lose scénarios print respectively
-        'Well Done !' and 'Game Over...'
+    """Terminal Driver.
+
+    Print the labyrinth and ask for input (L, R, U, D). Win and Lose
+    scénarios print respectively 'Well Done !' and 'Game Over...'
     """
 
     def draw_labyrinth(self):
@@ -71,14 +67,12 @@ class TerminalDriver(Driver):
                 if(Gyver.coords == square.coords):
                     laby_string += '\t' + 'Gyver'
                 else:
-                    laby_string += '\t' +  square.get_type()
+                    laby_string += '\t' + square.get_type()
 
             print(laby_string)
 
-
     def wait_for_move(self):
         return input('L, R, U, D (or QUIT) :\n')
-
 
     def win_scenario(self):
         print('Well Done !')
@@ -88,8 +82,9 @@ class TerminalDriver(Driver):
 
 
 class PygameDriver(Driver):
-    """
-        Pygame Driver. Draw the labyrinth with MacGyver and wait an event.
+    """Pygame Driver.
+
+    Draw the labyrinth with MacGyver and wait an event.
     """
 
     def __init__(self, fps):
@@ -131,14 +126,22 @@ class PygameDriver(Driver):
         """
         ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-        self.floor = self._load_image(os.path.join(ROOT_DIR, 'res/laby/floor.png'))
-        self.wall = self._load_image(os.path.join(ROOT_DIR, 'res/laby/wall.png'))
-        self.guard = self._load_image(os.path.join(ROOT_DIR, 'res/laby/guard.png'))
-        self.gyver = self._load_image(os.path.join(ROOT_DIR, 'res/laby/gyver.png'))
-        self.needle = self._load_image(os.path.join(ROOT_DIR, 'res/laby/needle.png'))
-        self.plastic_tube = self._load_image(os.path.join(ROOT_DIR, 'res/laby/plastic_tube.png'))
-        self.syringe = self._load_image(os.path.join(ROOT_DIR, 'res/laby/syringe.png'))
-        self.ether = self._load_image(os.path.join(ROOT_DIR, 'res/laby/ether.png'))
+        self.floor = self._load_image(
+            os.path.join(ROOT_DIR, 'res/laby/floor.png'))
+        self.wall = self._load_image(
+            os.path.join(ROOT_DIR, 'res/laby/wall.png'))
+        self.guard = self._load_image(
+            os.path.join(ROOT_DIR, 'res/laby/guard.png'))
+        self.gyver = self._load_image(
+            os.path.join(ROOT_DIR, 'res/laby/gyver.png'))
+        self.needle = self._load_image(
+            os.path.join(ROOT_DIR, 'res/laby/needle.png'))
+        self.plastic_tube = self._load_image(
+            os.path.join(ROOT_DIR, 'res/laby/plastic_tube.png'))
+        self.syringe = self._load_image(
+            os.path.join(ROOT_DIR, 'res/laby/syringe.png'))
+        self.ether = self._load_image(
+            os.path.join(ROOT_DIR, 'res/laby/ether.png'))
 
     def _load_image(self, path):
         img = pygame.image.load(path)
@@ -165,15 +168,20 @@ class PygameDriver(Driver):
                 elif(square.get_type() == 'Wall'):
                     img = [(self.wall, pixel_coords)]
                 elif(square.get_type() == 'Item 1'):
-                    img = [(self.floor, pixel_coords), (self.needle, pixel_coords)]
+                    img = [(self.floor, pixel_coords),
+                           (self.needle, pixel_coords)]
                 elif(square.get_type() == 'Item 2'):
-                    img = [(self.floor, pixel_coords), (self.plastic_tube, pixel_coords)]
+                    img = [(self.floor, pixel_coords),
+                           (self.plastic_tube, pixel_coords)]
                 elif(square.get_type() == 'Item 3'):
-                    img = [(self.floor, pixel_coords), (self.syringe, pixel_coords)]
+                    img = [(self.floor, pixel_coords),
+                           (self.syringe, pixel_coords)]
                 elif(square.get_type() == 'Item 4'):
-                    img = [(self.floor, pixel_coords), (self.ether, pixel_coords)]
+                    img = [(self.floor, pixel_coords),
+                           (self.ether, pixel_coords)]
                 elif(square.get_type() == 'Guard'):
-                    img = [(self.floor, pixel_coords), (self.guard, pixel_coords)]
+                    img = [(self.floor, pixel_coords),
+                           (self.guard, pixel_coords)]
 
                 self.screen.blits(blit_sequence=img)
 
@@ -189,7 +197,6 @@ class PygameDriver(Driver):
         # draw number of items
         label = self.font_21.render(str(len(Gyver.items)), 1, (240, 0, 0))
         self.screen.blit(label, pixel_coords)
-
 
     def _draw_legend(self):
         legend = pygame.Surface((200, self.PIXEL*Labyrinth.rows))
@@ -217,7 +224,6 @@ class PygameDriver(Driver):
 
         self.screen.blit(legend, (self.PIXEL*Labyrinth.columns, 0))
 
-
     def draw_labyrinth(self):
         self._draw_laby()
         self._draw_gyver()
@@ -243,13 +249,13 @@ class PygameDriver(Driver):
 
         return 0
 
-
     def win_scenario(self):
 
         win_screen = pygame.Surface(self.screen.get_size())
         win_screen.fill((255, 0, 0))
 
-        win_screen.blit(self.font_21.render('Congratulation !', 1, (240, 240, 240)), (290, 235))
+        win_screen.blit(self.font_21.render(
+            'Congratulation !', 1, (240, 240, 240)), (290, 235))
 
         loop = True
         while loop:
@@ -267,7 +273,8 @@ class PygameDriver(Driver):
         lose_screen = pygame.Surface(self.screen.get_size())
         lose_screen.fill((255, 0, 0))
 
-        lose_screen.blit(self.font_21.render('Game Over...', 1, (240, 240, 240)), (290, 235))
+        lose_screen.blit(self.font_21.render(
+            'Game Over...', 1, (240, 240, 240)), (290, 235))
 
         loop = True
         while loop:
